@@ -3,476 +3,1074 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Skills Daily Trainer</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<title>AI Skills Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg: #ffffff;
-    --bg-secondary: #f5f5f3;
-    --bg-tertiary: #eeede9;
-    --text-primary: #1a1a18;
-    --text-secondary: #6b6b68;
-    --border: rgba(0,0,0,0.12);
-    --border-strong: rgba(0,0,0,0.22);
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --purple-light: #EEEDFE;
-    --purple-mid: #AFA9EC;
-    --purple: #7F77DD;
-    --purple-dark: #534AB7;
-    --purple-darker: #3C3489;
-    --teal-light: #E1F5EE;
-    --teal-mid: #9FE1CB;
-    --teal: #1D9E75;
-    --teal-dark: #0F6E56;
-    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  }
+:root {
+  --cream: #F5F0E8;
+  --cream-dark: #EDE7D9;
+  --cream-deeper: #E0D8C8;
+  --ink: #1C1A14;
+  --ink-mid: #4A4538;
+  --ink-light: #8A8070;
+  --ink-faint: #B8AFA0;
+  --warm-white: #FAF8F4;
+  --border: rgba(28,26,20,0.12);
+  --border-strong: rgba(28,26,20,0.22);
+  --accent: #6B5E4A;
+  --accent-light: #8B7860;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+  --gold: #C4A96B;
+  --gold-light: #E8D9B5;
+}
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1c1c1a;
-      --bg-secondary: #252523;
-      --bg-tertiary: #2e2e2b;
-      --text-primary: #f0efe9;
-      --text-secondary: #9a9a95;
-      --border: rgba(255,255,255,0.1);
-      --border-strong: rgba(255,255,255,0.2);
-      --purple-light: #26215C;
-      --purple-mid: #534AB7;
-      --purple: #7F77DD;
-      --purple-dark: #AFA9EC;
-      --purple-darker: #CECBF6;
-      --teal-light: #04342C;
-      --teal-mid: #0F6E56;
-      --teal: #1D9E75;
-      --teal-dark: #9FE1CB;
-    }
-  }
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
 
-  body {
-    font-family: var(--font);
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    min-height: 100vh;
-    padding: 2rem 1rem;
-  }
+/* NAV */
+nav {
+  background: var(--warm-white);
+  border-bottom: 0.5px solid var(--border);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-brand {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--ink); }
+.nav-streak {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+.streak-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
 
-  .app {
-    max-width: 680px;
-    margin: 0 auto;
-  }
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; }
 
-  /* Header */
-  .header {
-    margin-bottom: 2rem;
-  }
-  .header h1 {
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-bottom: 4px;
-  }
-  .header p {
-    font-size: 14px;
-    color: var(--text-secondary);
-  }
+/* HOME PAGE */
+.home-hero {
+  text-align: center;
+  padding: 5rem 2rem 3rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.home-hero .eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 1.5rem;
+}
+.home-hero h1 {
+  font-family: var(--serif);
+  font-size: 52px;
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.01em;
+}
+.home-hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+.home-hero p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-mid);
+  max-width: 420px;
+  margin: 0 auto;
+}
+.divider {
+  width: 40px;
+  height: 0.5px;
+  background: var(--border-strong);
+  margin: 2rem auto;
+}
 
-  /* API key notice */
-  .api-notice {
-    background: var(--bg);
-    border: 0.5px solid var(--border);
-    border-left: 3px solid var(--purple);
-    border-radius: var(--radius-md);
-    padding: 12px 16px;
-    margin-bottom: 1.5rem;
-    font-size: 13px;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .api-notice i { color: var(--purple); margin-top: 1px; flex-shrink: 0; }
-  .api-notice a { color: var(--purple-dark); text-decoration: underline; }
-  .api-key-row { display: flex; gap: 8px; margin-top: 8px; }
-  .api-key-row input {
-    flex: 1;
-    font-size: 13px;
-    padding: 7px 10px;
-    border-radius: var(--radius-md);
-    border: 0.5px solid var(--border-strong);
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    font-family: monospace;
-  }
-  .api-key-row input:focus { outline: none; border-color: var(--purple); }
-  .api-key-row button {
-    font-size: 13px;
-    padding: 7px 14px;
-    border-radius: var(--radius-md);
-    border: 0.5px solid var(--purple-mid);
-    background: var(--purple-light);
-    color: var(--purple-darker);
-    cursor: pointer;
-    font-weight: 500;
-  }
-  .api-key-row button:hover { background: var(--purple-mid); }
+/* MODULE GRID */
+.modules-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
+}
+.modules-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 0.5px solid var(--border);
+}
+.module-tile {
+  background: var(--warm-white);
+  padding: 2rem 1.75rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.module-tile:hover { background: var(--cream-dark); }
+.module-tile .tile-num {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 300;
+  color: var(--gold-light);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+.module-tile .tile-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+.module-tile .tile-desc {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--ink-light);
+  margin-bottom: 1.25rem;
+}
+.tile-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tile-progress-bar {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.tile-progress-fill {
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.4s;
+}
+.tile-progress-label {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+.tile-arrow {
+  position: absolute;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  font-size: 16px;
+  color: var(--ink-faint);
+  transition: transform 0.2s, color 0.2s;
+}
+.module-tile:hover .tile-arrow {
+  transform: translate(3px, -3px);
+  color: var(--accent);
+}
 
-  /* Top row */
-  .top-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 1.25rem;
-  }
-  .progress-bar { display: flex; gap: 5px; flex: 1; }
-  .progress-dot {
-    width: 9px; height: 9px; border-radius: 50%;
-    background: var(--bg-tertiary);
-    border: 0.5px solid var(--border-strong);
-    transition: background 0.2s;
-  }
-  .progress-dot.done { background: var(--purple); border-color: var(--purple-dark); }
-  .progress-dot.current { background: var(--purple-mid); border-color: var(--purple); }
-  .streak {
-    display: flex; align-items: center; gap: 5px;
-    font-size: 13px; color: var(--text-secondary); white-space: nowrap;
-  }
-  .streak i { color: #E24B4A; }
-  .streak strong { color: var(--text-primary); }
+/* DASHBOARD */
+.dashboard-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
+}
+.section-heading {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.section-sub {
+  font-size: 13px;
+  color: var(--ink-light);
+  margin-bottom: 2rem;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 0.5px solid var(--border);
+  margin-bottom: 2rem;
+}
+.stat-card {
+  background: var(--warm-white);
+  padding: 1.5rem;
+  text-align: center;
+}
+.stat-num {
+  font-family: var(--serif);
+  font-size: 40px;
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+.stat-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.skill-rows {
+  background: var(--warm-white);
+  border: 0.5px solid var(--border);
+}
+.skill-row {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.skill-row:last-child { border-bottom: none; }
+.skill-row:hover { background: var(--cream-dark); }
+.skill-row-name {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--ink);
+  min-width: 180px;
+}
+.skill-row-bar {
+  flex: 1;
+  height: 1px;
+  background: var(--cream-deep, var(--border));
+  position: relative;
+}
+.skill-row-fill {
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.5s;
+}
+.skill-row-pct {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  min-width: 32px;
+  text-align: right;
+}
+.skill-row-badge {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border: 0.5px solid var(--border-strong);
+  color: var(--ink-light);
+  min-width: 70px;
+  text-align: center;
+}
+.skill-row-badge.done {
+  background: var(--gold-light);
+  color: var(--accent);
+  border-color: var(--gold);
+}
 
-  /* Skill nav */
-  .skill-nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.25rem; }
-  .skill-btn {
-    font-size: 12px; padding: 6px 14px;
-    border-radius: 20px;
-    border: 0.5px solid var(--border-strong);
-    background: var(--bg);
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.15s;
-    font-family: var(--font);
-  }
-  .skill-btn:hover { background: var(--bg-secondary); }
-  .skill-btn.active {
-    background: var(--purple-light);
-    color: var(--purple-darker);
-    border-color: var(--purple-mid);
-    font-weight: 500;
-  }
+/* LESSON PAGE */
+.lesson-page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+.lesson-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 3rem;
+}
+.lesson-breadcrumb span { cursor: pointer; }
+.lesson-breadcrumb span:hover { color: var(--ink-mid); }
+.lesson-breadcrumb .sep { color: var(--border-strong); }
+.lesson-num {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.75rem;
+}
+.lesson-title {
+  font-family: var(--serif);
+  font-size: 38px;
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+.lesson-body {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--ink-mid);
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 0.5px solid var(--border);
+}
+.lesson-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.75rem;
+}
+.scenario-block {
+  border-left: 1.5px solid var(--gold);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  background: var(--warm-white);
+}
+.scenario-block p {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.challenge-block {
+  background: var(--warm-white);
+  border: 0.5px solid var(--border);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.challenge-block p {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink-mid);
+}
+textarea {
+  width: 100%;
+  min-height: 120px;
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink);
+  background: var(--warm-white);
+  border: 0.5px solid var(--border-strong);
+  padding: 1rem 1.25rem;
+  resize: vertical;
+  margin-bottom: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+textarea:focus { border-color: var(--accent); }
+textarea::placeholder { color: var(--ink-faint); }
+.btn-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.btn-primary {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  background: var(--ink);
+  color: var(--cream);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-primary:hover { background: var(--ink-mid); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-ghost {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  background: transparent;
+  color: var(--ink-light);
+  border: 0.5px solid var(--border-strong);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { background: var(--cream-dark); color: var(--ink); }
+.btn-next {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  background: transparent;
+  color: var(--accent);
+  border: 0.5px solid var(--gold);
+  cursor: pointer;
+  display: none;
+  transition: all 0.2s;
+}
+.btn-next:hover { background: var(--gold-light); }
+.btn-next.visible { display: inline-block; }
+.feedback-block {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: var(--warm-white);
+  border-left: 1.5px solid var(--accent);
+  display: none;
+}
+.feedback-block.visible { display: block; }
+.feedback-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+.feedback-text {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--ink-mid);
+}
+.lesson-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 0.5px solid var(--border);
+}
+.lesson-dots {
+  display: flex;
+  gap: 6px;
+}
+.lesson-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border-strong);
+  transition: background 0.2s;
+}
+.lesson-dot.done { background: var(--gold); }
+.lesson-dot.current { background: var(--ink-mid); }
 
-  /* Lesson card */
-  .lesson-card {
-    background: var(--bg);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem;
-  }
-  .lesson-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
-  .badge {
-    font-size: 11px; font-weight: 500;
-    padding: 3px 10px; border-radius: 12px;
-  }
-  .badge-day { background: var(--purple-light); color: var(--purple-darker); }
-  .badge-type { background: var(--bg-secondary); color: var(--text-secondary); }
-  .lesson-title { font-size: 17px; font-weight: 500; color: var(--text-primary); margin-bottom: 10px; }
-  .lesson-content { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
+/* MODULE INTRO PAGE */
+.module-intro {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+.module-intro-hero {
+  padding: 3rem 0 2.5rem;
+  border-bottom: 0.5px solid var(--border);
+  margin-bottom: 2.5rem;
+}
+.module-intro-hero .eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 1rem;
+}
+.module-intro-hero h2 {
+  font-family: var(--serif);
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.module-intro-hero p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-mid);
+}
+.lesson-list {
+  list-style: none;
+  margin-bottom: 2.5rem;
+}
+.lesson-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.25rem 0;
+  border-bottom: 0.5px solid var(--border);
+  cursor: pointer;
+  transition: padding-left 0.2s;
+}
+.lesson-list-item:hover { padding-left: 6px; }
+.lesson-list-item:first-child { border-top: 0.5px solid var(--border); }
+.item-num {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--gold);
+  min-width: 24px;
+  line-height: 1.3;
+}
+.item-body .item-type {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 3px;
+}
+.item-body .item-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.item-status {
+  margin-left: auto;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  padding-top: 4px;
+}
+.item-status.done { color: var(--gold); }
 
-  .scenario-box {
-    background: var(--bg-secondary);
-    border-radius: var(--radius-md);
-    padding: 12px 16px;
-    margin-bottom: 12px;
-    border-left: 3px solid var(--purple);
-  }
-  .box-label {
-    font-size: 11px; font-weight: 500;
-    text-transform: uppercase; letter-spacing: 0.05em;
-    margin-bottom: 6px;
-    display: flex; align-items: center; gap: 5px;
-  }
-  .box-label.purple { color: var(--purple-dark); }
-  .box-label.teal { color: var(--teal-dark); }
-  .box-text { font-size: 13px; color: var(--text-primary); line-height: 1.65; }
+/* API KEY PANEL */
+.api-panel {
+  background: var(--warm-white);
+  border: 0.5px solid var(--border);
+  border-left: 1.5px solid var(--accent-light);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+.api-panel-body { flex: 1; }
+.api-panel-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.api-panel-desc {
+  font-size: 12px;
+  color: var(--ink-light);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+.api-panel-desc a { color: var(--accent); }
+.api-key-row { display: flex; gap: 8px; }
+.api-key-row input {
+  flex: 1;
+  font-family: monospace;
+  font-size: 12px;
+  padding: 8px 10px;
+  border: 0.5px solid var(--border-strong);
+  background: var(--cream);
+  color: var(--ink);
+  outline: none;
+}
+.api-key-row input:focus { border-color: var(--accent); }
+.api-key-row button {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  background: var(--ink);
+  color: var(--cream);
+  border: none;
+  cursor: pointer;
+  font-family: var(--sans);
+}
 
-  .challenge-box {
-    border: 0.5px solid var(--border-strong);
-    border-radius: var(--radius-md);
-    padding: 12px 16px;
-    margin-bottom: 16px;
-  }
+/* LOADING DOTS */
+.dots { display: inline-flex; gap: 3px; align-items: center; }
+.dots span {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--accent);
+  animation: dp 1.2s ease-in-out infinite;
+}
+.dots span:nth-child(2) { animation-delay: 0.2s; }
+.dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dp { 0%,80%,100%{opacity:0.2} 40%{opacity:1} }
 
-  textarea {
-    width: 100%; min-height: 90px;
-    font-size: 14px; padding: 10px 12px;
-    border-radius: var(--radius-md);
-    border: 0.5px solid var(--border-strong);
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    font-family: var(--font);
-    resize: vertical; margin-bottom: 12px;
-    line-height: 1.6;
-  }
-  textarea:focus { outline: none; border-color: var(--purple); }
-  textarea::placeholder { color: var(--text-secondary); }
-
-  .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .btn {
-    font-size: 13px; padding: 8px 16px;
-    border-radius: var(--radius-md);
-    cursor: pointer; font-weight: 500;
-    font-family: var(--font);
-    transition: all 0.15s;
-  }
-  .btn-purple {
-    border: 0.5px solid var(--purple-mid);
-    background: var(--purple-light);
-    color: var(--purple-darker);
-  }
-  .btn-purple:hover { background: var(--purple-mid); }
-  .btn-purple:disabled { opacity: 0.5; cursor: not-allowed; }
-  .btn-teal {
-    border: 0.5px solid var(--teal-mid);
-    background: var(--teal-light);
-    color: var(--teal-dark);
-    display: none;
-  }
-  .btn-teal:hover { background: var(--teal-mid); }
-  .btn-teal.visible { display: inline-block; }
-  .btn-ghost {
-    border: 0.5px solid var(--border-strong);
-    background: var(--bg);
-    color: var(--text-secondary);
-  }
-  .btn-ghost:hover { background: var(--bg-secondary); }
-
-  .feedback-box {
-    background: var(--bg-secondary);
-    border-radius: var(--radius-md);
-    padding: 14px 16px;
-    margin-top: 14px;
-    font-size: 14px;
-    color: var(--text-primary);
-    line-height: 1.75;
-    display: none;
-  }
-  .feedback-box.visible { display: block; }
-
-  .loading-dots { display: inline-flex; gap: 4px; align-items: center; }
-  .loading-dots span {
-    width: 5px; height: 5px; border-radius: 50%;
-    background: var(--purple);
-    animation: pulse 1.2s ease-in-out infinite;
-  }
-  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes pulse { 0%,80%,100%{opacity:0.3} 40%{opacity:1} }
-
-  /* Complete state */
-  .complete-card {
-    background: var(--bg);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 2.5rem;
-    text-align: center;
-  }
-  .complete-card h2 { font-size: 18px; font-weight: 500; margin-bottom: 8px; }
-  .complete-card p { font-size: 14px; color: var(--text-secondary); margin-bottom: 1.5rem; }
+/* WHATSAPP SECTION */
+.whatsapp-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
+}
+.wa-card {
+  background: var(--warm-white);
+  border: 0.5px solid var(--border);
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+@media (max-width: 640px) {
+  .wa-card { grid-template-columns: 1fr; }
+  nav { padding: 0 1rem; }
+  .home-hero h1 { font-size: 36px; }
+  .lesson-title { font-size: 28px; }
+}
+.wa-step {
+  padding: 1.25rem 0;
+  border-bottom: 0.5px solid var(--border);
+}
+.wa-step:last-child { border-bottom: none; padding-bottom: 0; }
+.wa-step-num {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 300;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.wa-step-text {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--ink-mid);
+}
+.wa-step-text a { color: var(--accent); }
+.wa-preview {
+  background: #ECE5DD;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+.wa-bubble {
+  background: white;
+  border-radius: 0 8px 8px 8px;
+  padding: 10px 14px;
+  max-width: 85%;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #1a1a1a;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.wa-bubble-out {
+  background: #DCF8C6;
+  border-radius: 8px 0 8px 8px;
+  align-self: flex-end;
+  padding: 10px 14px;
+  max-width: 85%;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #1a1a1a;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.wa-time {
+  font-size: 10px;
+  color: #999;
+  text-align: right;
+  margin-top: 3px;
+}
 </style>
 </head>
 <body>
-<div class="app">
 
-  <div class="header">
-    <h1>AI Skills Daily Trainer</h1>
-    <p>One practical lesson per skill area, every day. Answer the challenge to get coaching.</p>
+<nav>
+  <div class="nav-brand">AI Skills Trainer</div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" class="active" id="nav-home">Modules</a></li>
+    <li><a onclick="showPage('dashboard')" id="nav-dashboard">Dashboard</a></li>
+    <li><a onclick="showPage('whatsapp')" id="nav-whatsapp">Daily reminders</a></li>
+  </ul>
+  <div class="nav-streak">
+    <div class="streak-dot"></div>
+    <span id="streakLabel">1 day streak</span>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <div class="eyebrow">Your learning environment</div>
+    <h1>Master AI,<br><em>one lesson</em><br>at a time.</h1>
+    <div class="divider"></div>
+    <p>Five skill areas. Practical challenges. Coaching from Claude. Built for people who sell and deploy AI solutions.</p>
   </div>
 
-  <div class="api-notice" id="apiNotice">
-    <i class="ti ti-key" style="font-size:16px"></i>
-    <div>
-      <div>Add your Anthropic API key to enable AI coaching. <a href="https://console.anthropic.com/keys" target="_blank">Get one free here →</a></div>
-      <div class="api-key-row">
-        <input type="password" id="apiKeyInput" placeholder="sk-ant-..." />
-        <button onclick="saveKey()">Save key</button>
+  <div class="modules-section">
+    <div class="modules-label">Learning modules</div>
+    <div class="modules-grid" id="modulesGrid"></div>
+  </div>
+
+  <div class="dashboard-section">
+    <div class="divider" style="margin-left:0;margin-bottom:1.5rem;"></div>
+    <div class="section-heading">Your progress</div>
+    <div class="section-sub">Across all five skill areas</div>
+    <div class="stats-grid" id="homeStats"></div>
+  </div>
+</div>
+
+<!-- DASHBOARD PAGE -->
+<div class="page" id="page-dashboard">
+  <div class="dashboard-section" style="padding-top:3rem;">
+    <div class="eyebrow" style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:1rem;">Your progress</div>
+    <div class="section-heading">Skills dashboard</div>
+    <div class="section-sub">Track mastery across all five AI skill areas</div>
+    <div class="stats-grid" id="dashStats"></div>
+    <div class="skill-rows" id="skillRows"></div>
+  </div>
+</div>
+
+<!-- WHATSAPP PAGE -->
+<div class="page" id="page-whatsapp">
+  <div class="whatsapp-section" style="padding-top:3rem;">
+    <div class="eyebrow" style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:1rem;">Stay consistent</div>
+    <div class="section-heading" style="margin-bottom:0.5rem;">Daily WhatsApp reminders</div>
+    <div class="section-sub" style="margin-bottom:2rem;">Get a lesson prompt sent to you every morning so you never miss a day.</div>
+    <div class="wa-card">
+      <div>
+        <div class="wa-step">
+          <div class="wa-step-num">1</div>
+          <div class="wa-step-text">Go to <a href="https://make.com" target="_blank">make.com</a> (free plan works). Create an account if you don't have one.</div>
+        </div>
+        <div class="wa-step">
+          <div class="wa-step-num">2</div>
+          <div class="wa-step-text">Create a new Scenario. Add a <strong>Schedule</strong> trigger — set it to 8am daily.</div>
+        </div>
+        <div class="wa-step">
+          <div class="wa-step-num">3</div>
+          <div class="wa-step-text">Add a <strong>WhatsApp Business</strong> module (or use Twilio for personal WhatsApp). Connect your number.</div>
+        </div>
+        <div class="wa-step">
+          <div class="wa-step-num">4</div>
+          <div class="wa-step-text">Set the message to one of the daily prompts below — or connect the Anthropic API module to generate a fresh challenge each day automatically.</div>
+        </div>
+        <div class="wa-step">
+          <div class="wa-step-num">5</div>
+          <div class="wa-step-text">Alternatively: set a daily phone alarm labelled with the lesson URL: <strong>twiggyrockstar.github.io/AI-app</strong></div>
+        </div>
+      </div>
+      <div class="wa-preview">
+        <div class="wa-bubble">
+          <strong>AI Skills Trainer</strong> — Day 4<br><br>
+          Today's challenge: A prospect says their legal team will never approve AI on their data. What's your first move?<br><br>
+          <span style="color:#888;font-size:11px;">Open your trainer → twiggyrockstar.github.io/AI-app</span>
+          <div class="wa-time">08:00</div>
+        </div>
+        <div class="wa-bubble-out">
+          On it 💪
+          <div class="wa-time">08:03</div>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="top-row">
-    <div class="progress-bar" id="progressBar"></div>
-    <div class="streak">
-      <i class="ti ti-flame" aria-hidden="true"></i>
-      Streak: <strong id="streakCount">1</strong> day
+<!-- MODULE INTRO PAGE -->
+<div class="page" id="page-module">
+  <div class="module-intro">
+    <div class="lesson-breadcrumb">
+      <span onclick="showPage('home')">Modules</span>
+      <span class="sep">—</span>
+      <span id="moduleIntroName"></span>
+    </div>
+    <div class="module-intro-hero">
+      <div class="eyebrow" id="moduleIntroEyebrow"></div>
+      <h2 id="moduleIntroTitle"></h2>
+      <p id="moduleIntroDesc"></p>
+    </div>
+    <ul class="lesson-list" id="lessonList"></ul>
+    <button class="btn-primary" onclick="startFirstLesson()">Begin module →</button>
+  </div>
+</div>
+
+<!-- LESSON PAGE -->
+<div class="page" id="page-lesson">
+  <div class="lesson-page">
+    <div class="api-panel" id="apiPanel">
+      <div class="api-panel-body">
+        <div class="api-panel-label">API key required for coaching</div>
+        <div class="api-panel-desc">Add your Anthropic API key to unlock coaching feedback. <a href="https://console.anthropic.com/keys" target="_blank">Get one free →</a></div>
+        <div class="api-key-row">
+          <input type="password" id="apiKeyInput" placeholder="sk-ant-..." />
+          <button onclick="saveKey()">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-breadcrumb">
+      <span onclick="showPage('home')">Modules</span>
+      <span class="sep">—</span>
+      <span id="lessonModuleName" onclick="showModulePage(state.currentSkill)" style="cursor:pointer"></span>
+      <span class="sep">—</span>
+      <span id="lessonNum"></span>
+    </div>
+
+    <div class="lesson-num" id="lessonTypeLabel"></div>
+    <div class="lesson-title" id="lessonTitle"></div>
+    <div class="lesson-body" id="lessonBody"></div>
+
+    <div class="lesson-label">The scenario</div>
+    <div class="scenario-block"><p id="scenarioText"></p></div>
+
+    <div class="lesson-label">Your challenge</div>
+    <div class="challenge-block"><p id="challengeText"></p></div>
+
+    <textarea id="answerInput" placeholder="Write your answer here. There's no perfect response — just think it through honestly."></textarea>
+    <div class="btn-row">
+      <button class="btn-primary" id="submitBtn" onclick="submitAnswer()">Get coaching</button>
+      <button class="btn-ghost" onclick="skipLesson()">Skip</button>
+      <button class="btn-next" id="nextBtn" onclick="nextLesson()">Next lesson →</button>
+    </div>
+    <div class="feedback-block" id="feedbackBlock">
+      <div class="feedback-label">Coaching</div>
+      <div class="feedback-text" id="feedbackText"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <div class="lesson-dots" id="lessonDots"></div>
+      <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint)" id="lessonProgress"></div>
     </div>
   </div>
-
-  <div class="skill-nav" id="skillNav"></div>
-  <div id="lessonArea"></div>
-
 </div>
 
 <script>
-const SKILLS = [
-  { id: 'stack', label: 'AI Tech Stack' },
-  { id: 'diagnostics', label: 'Problem Diagnostics' },
-  { id: 'prompting', label: 'Prompt Engineering' },
-  { id: 'governance', label: 'Trust & Governance' },
-  { id: 'roi', label: 'TCO & ROI' },
+const MODULES = [
+  {
+    id: 'stack',
+    title: 'AI Tech Stack Fluency',
+    shortTitle: 'AI Tech Stack',
+    desc: 'Understand the underlying architecture of AI systems — LLMs, RAG, fine-tuning, tokens — so you can speak credibly with engineering and product teams.',
+    eyebrow: 'Module 01 — Foundation',
+  },
+  {
+    id: 'diagnostics',
+    title: 'Algorithmic Problem Diagnostics',
+    shortTitle: 'Problem Diagnostics',
+    desc: 'Learn to spot AI-native use cases — classification, summarisation, prediction, automation — and diagnose data bottlenecks instead of workflow bottlenecks.',
+    eyebrow: 'Module 02 — Discovery',
+  },
+  {
+    id: 'prompting',
+    title: 'Advanced Prompt Engineering',
+    shortTitle: 'Prompt Engineering',
+    desc: 'Master system prompting, few-shot examples, and chain-of-thought reasoning to run powerful live demos that solve prospects\' real problems in real time.',
+    eyebrow: 'Module 03 — Technical',
+  },
+  {
+    id: 'governance',
+    title: 'Trust, Security & Governance',
+    shortTitle: 'Trust & Governance',
+    desc: 'Learn the fundamentals of data privacy, SOC2, and AI governance so you can disarm legal and procurement objections before they stall your deals.',
+    eyebrow: 'Module 04 — Risk & Compliance',
+  },
+  {
+    id: 'roi',
+    title: 'TCO & ROI Modelling',
+    shortTitle: 'TCO & ROI',
+    desc: 'Shift conversations from software cost to business value. Learn to model the cost of inaction and translate time saved into revenue capacity.',
+    eyebrow: 'Module 05 — Commercial',
+  },
 ];
 
 const CURRICULUM = {
   stack: [
-    { type:'Core concept', title:'LLMs vs RAG vs fine-tuning — what actually differs', content:'An LLM is a language model trained on vast public data. Fine-tuning retrains it on your data. RAG (Retrieval-Augmented Generation) keeps the base model intact but retrieves relevant chunks of your private data at query time — so answers stay grounded in your sources without expensive retraining.', scenario:'A CFO asks: "If we use your AI on our financial reports, how do we know it won\'t make up numbers?"', challenge:'In 2-3 sentences, explain how RAG architecture addresses this objection without using the word "hallucination."' },
-    { type:'Applied', title:'Tokens, context windows, and why they matter for pricing', content:'LLMs process text as "tokens" — roughly ¾ of a word. Every API call has a context window limit (how much text fits in one conversation). Longer contexts cost more. Understanding this lets you explain why AI costs scale with usage, not just seats.', scenario:'A procurement lead asks why AI pricing is "unpredictable" compared to your old SaaS tool.', challenge:'Draft a one-paragraph explanation of consumption-based AI pricing that a non-technical buyer would trust.' },
-    { type:'Objection handling', title:'Speaking confidently with engineering teams', content:'Eng teams will probe your understanding. You don\'t need to know implementation details — but you do need to speak accurately. Know the difference between a model endpoint, an embedding, and an API call.', scenario:'A solutions engineer asks: "Does your product use embeddings for semantic search or just keyword matching?"', challenge:'Write the answer you\'d give — even if you\'re uncertain. What would you say, and what would you follow up on internally?' },
+    { type:'Core concept', title:'LLMs vs RAG vs fine-tuning — what actually differs', content:'An LLM is a language model trained on vast public data. Fine-tuning retrains it on your specific data. RAG (Retrieval-Augmented Generation) keeps the base model intact but retrieves relevant chunks of your private data at query time — so answers stay grounded in your sources without expensive retraining. This is the architecture that solves most enterprise data concerns.', scenario:'A CFO asks: "If we use your AI on our financial reports, how do we know it won\'t make up numbers?"', challenge:'In 2-3 sentences, explain how RAG architecture addresses this objection without using the word "hallucination."' },
+    { type:'Applied', title:'Tokens, context windows, and why they matter for pricing', content:'LLMs process text as "tokens" — roughly ¾ of a word each. Every API call has a context window limit (how much text fits in one conversation). Longer contexts cost more. Understanding this lets you explain why AI costs scale with usage volume, not just user seats — and why that\'s actually a feature, not a bug.', scenario:'A procurement lead asks why AI pricing is "unpredictable" compared to your old SaaS tool.', challenge:'Draft a one-paragraph explanation of consumption-based AI pricing that a non-technical buyer would find reassuring.' },
+    { type:'Objection handling', title:'Speaking confidently with engineering teams', content:'Engineering teams will probe your technical understanding. You don\'t need to know implementation details — but you do need to speak accurately. Know the difference between a model endpoint, an embedding, and an API call. Getting these wrong destroys credibility instantly.', scenario:'A solutions engineer asks: "Does your product use embeddings for semantic search or just keyword matching?"', challenge:'Write the answer you\'d give — even if uncertain. What would you say, and what would you follow up on internally?' },
   ],
   diagnostics: [
-    { type:'Framework', title:'The four AI use case patterns', content:'AI excels at four patterns: Classification (labelling things), Summarization (compressing information), Prediction (forecasting from patterns), and Automation (triggering actions from unstructured input). Every strong AI use case maps to at least one of these.', scenario:'A VP of Customer Success says: "We have 3 years of support tickets but we can\'t do anything useful with them."', challenge:'Which of the four patterns apply here, and what specific outcome would you propose?' },
-    { type:'Discovery technique', title:'Finding the data bottleneck, not just the workflow bottleneck', content:'Traditional discovery asks "where does your team lose time?" AI discovery asks "where does your team have data they can\'t act on?" Unstructured data (emails, transcripts, documents, PDFs) is almost always where the real opportunity lives.', scenario:'A sales ops leader says onboarding takes too long. Your reflex is to pitch automation.', challenge:'Write three discovery questions that uncover whether there\'s an AI-native use case, not just a workflow problem.' },
-    { type:'Applied', title:'Qualifying whether a use case is actually AI-ready', content:'Not every data problem is AI-ready. Good AI use cases have: (1) a clear repeatable pattern in the data, (2) a measurable outcome, and (3) enough data volume to matter. Weak cases have one-off exceptions or deeply subjective judgements.', scenario:'A prospect wants to use AI to automatically approve contract exceptions.', challenge:'Is this a strong or weak AI use case? Make the case either way, then say what you\'d need to know to be sure.' },
+    { type:'Framework', title:'The four AI use case patterns', content:'AI excels at four core patterns: Classification (labelling inputs into categories), Summarisation (compressing large information into key points), Prediction (forecasting from historical patterns), and Automation (triggering actions from unstructured input). Every strong AI use case maps cleanly to at least one of these. If you can\'t map it, the use case is probably not AI-ready.', scenario:'A VP of Customer Success says: "We have 3 years of support tickets but we can\'t do anything useful with them."', challenge:'Which of the four patterns apply here, and what specific outcome would you propose to them?' },
+    { type:'Discovery technique', title:'Finding the data bottleneck, not the workflow bottleneck', content:'Traditional discovery asks "where does your team lose time?" AI discovery asks "where does your team have data they can\'t act on?" Unstructured data — emails, transcripts, documents, PDFs, call recordings — is almost always where the real opportunity lives. The question isn\'t "what\'s slow?" It\'s "what\'s invisible?"', scenario:'A sales ops leader says onboarding takes too long. Your instinct is to pitch automation.', challenge:'Write three discovery questions that uncover whether there\'s an AI-native use case, not just a workflow problem.' },
+    { type:'Applied', title:'Qualifying whether a use case is actually AI-ready', content:'Not every data problem is AI-ready. Strong AI use cases have three qualities: a clear repeatable pattern in the data, a measurable outcome, and enough volume to matter. Weak cases have one-off exceptions, deeply subjective judgements, or data that simply doesn\'t exist yet. Learning to tell the difference quickly is one of the most valuable skills in AI sales.', scenario:'A prospect wants to use AI to automatically approve contract exceptions.', challenge:'Is this a strong or weak AI use case? Make the case either way, then say what you\'d need to know to be certain.' },
   ],
   prompting: [
-    { type:'Technique', title:'System prompting — setting the AI\'s context and role', content:'A system prompt defines the AI\'s persona, constraints, and task before the user says anything. Think of it as briefing an expert before they walk into a client meeting. Good system prompts include: role, output format, tone, and what to avoid.', scenario:'You\'re about to demo your AI platform live to a fintech prospect. Their data is messy Excel exports.', challenge:'Write a system prompt that would make the AI analyze their exports accurately without overreaching on financial advice.' },
-    { type:'Technique', title:'Few-shot prompting — teaching by example', content:'Few-shot prompting gives the model 2-5 examples of input→output pairs before your real request. It dramatically improves consistency. This is how you adapt a general model to your prospect\'s specific domain without fine-tuning.', scenario:'You need the AI to classify customer feedback into: Bug, Feature Request, Praise, or Billing Issue.', challenge:'Write a few-shot prompt with 3 examples that would reliably classify new feedback in this format.' },
-    { type:'Applied', title:'Chain-of-thought prompting for complex analysis', content:'Chain-of-thought prompting asks the model to reason step-by-step before giving a final answer. It reduces errors on multi-step problems. Add "think step by step" or structure your prompt with explicit reasoning steps.', scenario:'A prospect gives you a raw NPS survey with 200 open-ended responses and wants to know the top 3 product risks.', challenge:'Write the prompt structure you\'d use to reliably surface the top risks from that data in a live demo setting.' },
+    { type:'Technique', title:'System prompting — setting the AI\'s context and role', content:'A system prompt defines the AI\'s persona, constraints, and task before the user says anything. Think of it as briefing an expert before they walk into a client meeting. Good system prompts include: role definition, desired output format, tone guidelines, and what to explicitly avoid. Mastering this means you can configure the AI for any prospect\'s context in minutes.', scenario:'You\'re about to demo your AI platform live to a fintech prospect. Their data is messy Excel exports.', challenge:'Write a system prompt that would make the AI analyse their exports accurately without overreaching on regulated financial advice.' },
+    { type:'Technique', title:'Few-shot prompting — teaching by example', content:'Few-shot prompting gives the model 2-5 examples of input→output pairs before your real request. It dramatically improves consistency and accuracy. This is how you adapt a general model to your prospect\'s specific domain without fine-tuning — and it\'s something you can do live in a demo environment within seconds.', scenario:'You need the AI to classify customer feedback into: Bug, Feature Request, Praise, or Billing Issue.', challenge:'Write a few-shot prompt with 3 examples that would reliably classify new feedback entries in this format.' },
+    { type:'Applied', title:'Chain-of-thought prompting for complex analysis', content:'Chain-of-thought prompting asks the model to reason step-by-step before giving a final answer. It significantly reduces errors on multi-step reasoning problems. You trigger it by adding "think step by step" or structuring your prompt with explicit reasoning steps. This is especially powerful for financial analysis, legal review, or any task where showing workings matters.', scenario:'A prospect hands you a raw NPS survey with 200 open-ended responses and asks to see the top 3 product risks — live, in the room.', challenge:'Write the full prompt structure you\'d use to surface those risks reliably in a high-stakes live demo setting.' },
   ],
   governance: [
-    { type:'Core concept', title:'Data privacy basics every AE must know', content:'Three questions every CIO/CISO asks: (1) Is our data used to train public models? (2) Where is it stored and for how long? (3) Who can see it? If you can\'t answer these cleanly, the deal stalls. Know your company\'s answers cold.', scenario:'You\'re in discovery call 2. The CTO asks: "If we feed customer PII into your platform, how is it handled?"', challenge:'Write the answer as if it were coming from you right now — with whatever you know, and flag what you\'d need to confirm.' },
-    { type:'Objection handling', title:'SOC2 and ISO 27001 — what they actually mean', content:'SOC2 certifies that a company controls how it handles customer data (access, availability, processing, confidentiality). ISO 27001 is an international security management standard. Neither guarantees no breach — both signal mature controls. You don\'t need to memorize them; you need to know what to say when asked.', scenario:'Procurement sends a security questionnaire asking if your platform is SOC2 Type II certified.', challenge:'Draft the email reply you\'d send to the prospect explaining your compliance posture confidently, even if you\'re unsure of every detail.' },
-    { type:'Strategy', title:'Proactively addressing governance — before they block the deal', content:'The best AEs raise governance before legal does. In meeting 2, say: "I want to make sure we address data handling early so we don\'t hit surprises in procurement." This signals competence and builds CISO/CIO trust.', scenario:'You\'re preparing the agenda for your second call with a healthcare company.', challenge:'Write the 2-3 sentences you\'d use to introduce data governance proactively in that meeting — without sounding like a compliance robot.' },
+    { type:'Core concept', title:'Data privacy basics every AE must know cold', content:'Three questions every CIO or CISO will ask: Is our data used to train public models? Where is it stored and for how long? Who can access it? If you can\'t answer these cleanly without checking your phone, your deal velocity will drop. These aren\'t technical questions — they\'re trust questions. Own them.', scenario:'You\'re in discovery call 2. The CTO asks: "If we feed customer PII into your platform, how is it handled?"', challenge:'Write your answer as if you\'re in the room right now. Use what you know and flag what you\'d confirm after the call.' },
+    { type:'Objection handling', title:'SOC2 and ISO 27001 — what they actually mean', content:'SOC2 certifies that a company has mature controls around how it handles customer data — access, availability, processing, confidentiality. ISO 27001 is the international information security management standard. Neither guarantees zero breaches. Both signal disciplined, audited security practices. You don\'t need to memorise the standards — you need to know how to respond when procurement asks.', scenario:'Procurement sends a security questionnaire. First question: is your platform SOC2 Type II certified?', challenge:'Draft the email reply you\'d send to the prospect explaining your compliance posture clearly and confidently.' },
+    { type:'Strategy', title:'Proactively raising governance before it blocks you', content:'The best AEs address governance before legal does. In meeting 2, open with: "I want to make sure we address data handling early so we don\'t hit procurement surprises later." This signals maturity, builds CIO/CISO credibility, and lets you control the narrative. Deals that stall in legal almost always stalled because governance wasn\'t raised early enough.', scenario:'You\'re building the agenda for your second call with a large healthcare company.', challenge:'Write the 2-3 sentences you\'d use to raise data governance proactively in that meeting — without sounding scripted.' },
   ],
   roi: [
-    { type:'Framework', title:'The cost of not using AI', content:'Start ROI conversations from the current-state cost, not the software price. Human hours × loaded hourly rate = your baseline. If a team of 10 spends 30% of their time on manual data tasks at $80k/year loaded, that\'s $240k of misallocated capacity per year — before a single license fee is mentioned.', scenario:'An ops director says "I can\'t justify a $60k/year tool right now."', challenge:'Build the other side of that equation. What questions would you ask to establish the cost of their current process?' },
-    { type:'Applied', title:'Translating time saved into revenue capacity', content:'Time saved ≠ money saved unless you tie it to reallocation. The power move: "If your analysts spend 30% less time on manual reporting, what would you redirect that capacity to?" Push for a specific answer — a product launch, a new market, faster onboarding.', scenario:'You\'ve calculated that your tool saves a RevOps team 15 hours/week.', challenge:'Write the 3-sentence ROI narrative you\'d use in a presentation to the CFO that connects those 15 hours to a business outcome.' },
-    { type:'Objection handling', title:'When procurement says the price is too high', content:'AI deals killed on price are usually killed because the ROI wasn\'t real to the buyer. The fix isn\'t discounting — it\'s anchoring. "The question isn\'t whether $50k is a lot. The question is whether $50k is a lot compared to $200k of capacity reallocation."', scenario:'The CFO pushes back: "We\'re being asked to budget $75k for this. That\'s a big ask."', challenge:'Write your response — no discounting allowed. Use anchoring, reframing, or ROI math to hold the price.' },
+    { type:'Framework', title:'The cost of not using AI', content:'Start every ROI conversation from the current-state cost, not the software price. Human hours × loaded annual rate = your baseline. If a team of 10 spends 30% of their time on manual data tasks at $80k/year loaded, that\'s $240k of misallocated capacity every year — before you\'ve mentioned a single license fee. Build this number before the CFO asks.', scenario:'An ops director says: "I can\'t justify a $60k/year tool right now."', challenge:'Build the other side of that equation. What specific questions would you ask to surface the real cost of their current process?' },
+    { type:'Applied', title:'Translating time saved into revenue capacity', content:'Time saved only becomes money saved when you tie it to reallocation. The power move is to ask: "If your analysts spend 30% less time on manual reporting, what would you redirect that capacity to?" Push them to name it specifically — a product launch, a new market, faster client onboarding. Vague time savings don\'t move CFOs. Named outcomes do.', scenario:'You\'ve calculated your tool saves a RevOps team 15 hours per week across the team.', challenge:'Write the 3-sentence ROI narrative you\'d use in a CFO presentation that connects those 15 hours to a concrete business outcome.' },
+    { type:'Objection handling', title:'When procurement says the price is too high', content:'AI deals killed on price are almost always killed because the ROI never became real to the buyer. The fix isn\'t discounting — it\'s anchoring before they object. Frame it early: "The question isn\'t whether $50k is a significant investment. The question is whether $50k is significant compared to $200k of capacity that\'s currently tied up in manual work." Get there before they do.', scenario:'The CFO says: "We\'re being asked to budget $75k for this. That\'s a big ask in the current environment."', challenge:'Write your response. No discounting allowed. Use anchoring, reframing, or ROI math to hold the price with confidence.' },
   ],
 };
 
-let apiKey = localStorage.getItem('anthropic_api_key') || '';
+let apiKey = localStorage.getItem('aitrainer_key') || '';
 let state = {
   currentSkill: 'stack',
   lessonIndex: 0,
-  completed: { stack:0, diagnostics:0, prompting:0, governance:0, roi:0 },
-  streak: parseInt(localStorage.getItem('streak') || '1'),
+  completed: JSON.parse(localStorage.getItem('aitrainer_completed') || '{"stack":0,"diagnostics":0,"prompting":0,"governance":0,"roi":0}'),
+  streak: parseInt(localStorage.getItem('aitrainer_streak') || '1'),
 };
 
+function saveState() {
+  localStorage.setItem('aitrainer_completed', JSON.stringify(state.completed));
+  localStorage.setItem('aitrainer_streak', state.streak);
+}
+
 function saveKey() {
-  const val = document.getElementById('apiKeyInput').value.trim();
-  if (!val.startsWith('sk-')) { alert('That doesn\'t look like a valid API key. It should start with sk-ant-'); return; }
-  apiKey = val;
-  localStorage.setItem('anthropic_api_key', val);
-  document.getElementById('apiNotice').style.display = 'none';
+  const v = document.getElementById('apiKeyInput').value.trim();
+  if (!v.startsWith('sk-')) { alert('That doesn\'t look right — API keys start with sk-ant-'); return; }
+  apiKey = v;
+  localStorage.setItem('aitrainer_key', v);
+  document.getElementById('apiPanel').style.display = 'none';
 }
 
-function init() {
-  if (apiKey) document.getElementById('apiNotice').style.display = 'none';
-  document.getElementById('streakCount').textContent = state.streak;
-  renderNav();
-  renderProgress();
-  renderLesson();
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + name);
+  if (navEl) navEl.classList.add('active');
+  if (name === 'home') { renderHome(); document.getElementById('nav-home').classList.add('active'); }
+  if (name === 'dashboard') renderDashboard();
+  window.scrollTo(0, 0);
 }
 
-function renderNav() {
-  document.getElementById('skillNav').innerHTML = SKILLS.map(s =>
-    `<button class="skill-btn ${s.id===state.currentSkill?'active':''}" onclick="switchSkill('${s.id}')">${s.label}</button>`
-  ).join('');
-}
-
-function renderProgress() {
-  const lessons = CURRICULUM[state.currentSkill];
-  document.getElementById('progressBar').innerHTML = lessons.map((_, i) => {
-    const done = i < state.completed[state.currentSkill];
-    const curr = i === state.lessonIndex && !done;
-    return `<div class="progress-dot ${done?'done':curr?'current':''}"></div>`;
+function showModulePage(skillId) {
+  state.currentSkill = skillId;
+  const mod = MODULES.find(m => m.id === skillId);
+  const lessons = CURRICULUM[skillId];
+  document.getElementById('moduleIntroName').textContent = mod.shortTitle;
+  document.getElementById('moduleIntroEyebrow').textContent = mod.eyebrow;
+  document.getElementById('moduleIntroTitle').textContent = mod.title;
+  document.getElementById('moduleIntroDesc').textContent = mod.desc;
+  const list = document.getElementById('lessonList');
+  list.innerHTML = lessons.map((l, i) => {
+    const done = i < state.completed[skillId];
+    return `<li class="lesson-list-item" onclick="openLesson('${skillId}', ${i})">
+      <div class="item-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="item-body">
+        <div class="item-type">${l.type}</div>
+        <div class="item-title">${l.title}</div>
+      </div>
+      <div class="item-status ${done?'done':''}">${done ? 'Complete' : 'Not started'}</div>
+    </li>`;
   }).join('');
+  showPage('module');
+  document.getElementById('nav-home').classList.add('active');
+}
+
+function startFirstLesson() {
+  const done = state.completed[state.currentSkill];
+  const idx = done < CURRICULUM[state.currentSkill].length ? done : 0;
+  openLesson(state.currentSkill, idx);
+}
+
+function openLesson(skillId, idx) {
+  state.currentSkill = skillId;
+  state.lessonIndex = idx;
+  renderLesson();
+  showPage('lesson');
+  document.getElementById('nav-home').classList.add('active');
 }
 
 function renderLesson() {
-  const area = document.getElementById('lessonArea');
+  const mod = MODULES.find(m => m.id === state.currentSkill);
   const lessons = CURRICULUM[state.currentSkill];
-  const idx = state.lessonIndex;
-
-  if (idx >= lessons.length) {
-    area.innerHTML = `<div class="complete-card">
-      <div style="font-size:36px;margin-bottom:16px">🎯</div>
-      <h2>All lessons complete for this skill!</h2>
-      <p>Switch to another skill area or come back tomorrow for more.</p>
-      <button class="btn btn-purple" onclick="switchSkill(nextSkill())">Next skill area →</button>
-    </div>`;
-    return;
-  }
-
-  const lesson = lessons[idx];
-  area.innerHTML = `<div class="lesson-card">
-    <div class="lesson-meta">
-      <span class="badge badge-day">Lesson ${idx+1} of ${lessons.length}</span>
-      <span class="badge badge-type">${lesson.type}</span>
-    </div>
-    <div class="lesson-title">${lesson.title}</div>
-    <div class="lesson-content">${lesson.content}</div>
-    <div class="scenario-box">
-      <div class="box-label purple"><i class="ti ti-briefcase" aria-hidden="true" style="font-size:13px"></i> Real-world scenario</div>
-      <div class="box-text">${lesson.scenario}</div>
-    </div>
-    <div class="challenge-box">
-      <div class="box-label teal"><i class="ti ti-pencil" aria-hidden="true" style="font-size:13px"></i> Your challenge</div>
-      <div class="box-text">${lesson.challenge}</div>
-    </div>
-    <textarea id="answerInput" placeholder="Type your answer here — there's no perfect response, just think it through…"></textarea>
-    <div class="actions">
-      <button class="btn btn-purple" id="submitBtn" onclick="submitAnswer()">Get coaching ↗</button>
-      <button class="btn btn-ghost" onclick="skipLesson()">Skip</button>
-      <button class="btn btn-teal" id="nextBtn" onclick="nextLesson()">Next lesson →</button>
-    </div>
-    <div class="feedback-box" id="feedbackBox"></div>
-  </div>`;
-  renderProgress();
-}
-
-function nextSkill() {
-  const idx = SKILLS.findIndex(s => s.id === state.currentSkill);
-  return SKILLS[(idx + 1) % SKILLS.length].id;
-}
-
-function switchSkill(id) {
-  state.currentSkill = id;
-  state.lessonIndex = state.completed[id];
-  renderNav();
-  renderLesson();
+  const lesson = lessons[state.lessonIndex];
+  document.getElementById('lessonModuleName').textContent = mod.shortTitle;
+  document.getElementById('lessonNum').textContent = `Lesson ${state.lessonIndex + 1}`;
+  document.getElementById('lessonTypeLabel').textContent = lesson.type;
+  document.getElementById('lessonTitle').textContent = lesson.title;
+  document.getElementById('lessonBody').textContent = lesson.content;
+  document.getElementById('scenarioText').textContent = lesson.scenario;
+  document.getElementById('challengeText').textContent = lesson.challenge;
+  document.getElementById('answerInput').value = '';
+  document.getElementById('feedbackBlock').className = 'feedback-block';
+  document.getElementById('feedbackText').textContent = '';
+  document.getElementById('nextBtn').className = 'btn-next';
+  document.getElementById('submitBtn').disabled = false;
+  document.getElementById('submitBtn').textContent = 'Get coaching';
+  if (apiKey) document.getElementById('apiPanel').style.display = 'none';
+  const dots = document.getElementById('lessonDots');
+  dots.innerHTML = lessons.map((_, i) => {
+    const done = i < state.completed[state.currentSkill];
+    const curr = i === state.lessonIndex;
+    return `<div class="lesson-dot ${done?'done':curr?'current':''}"></div>`;
+  }).join('');
+  document.getElementById('lessonProgress').textContent = `${state.lessonIndex + 1} of ${lessons.length}`;
 }
 
 function skipLesson() {
-  state.lessonIndex = Math.min(state.lessonIndex + 1, CURRICULUM[state.currentSkill].length);
-  renderLesson();
+  if (state.lessonIndex < CURRICULUM[state.currentSkill].length - 1) {
+    state.lessonIndex++;
+    renderLesson();
+  } else {
+    showModulePage(state.currentSkill);
+  }
 }
 
 function nextLesson() {
   state.lessonIndex++;
-  renderLesson();
+  if (state.lessonIndex >= CURRICULUM[state.currentSkill].length) {
+    showModulePage(state.currentSkill);
+  } else {
+    renderLesson();
+    window.scrollTo(0,0);
+  }
 }
 
 async function submitAnswer() {
   if (!apiKey) {
-    document.getElementById('apiNotice').style.display = 'flex';
+    document.getElementById('apiPanel').style.display = 'flex';
     document.getElementById('apiKeyInput').focus();
     return;
   }
   const answer = document.getElementById('answerInput').value.trim();
   if (!answer) { document.getElementById('answerInput').focus(); return; }
-
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
-  btn.innerHTML = '<span class="loading-dots"><span></span><span></span><span></span></span>';
-
-  const feedbackBox = document.getElementById('feedbackBox');
-  feedbackBox.className = 'feedback-box visible';
-  feedbackBox.innerHTML = '<span class="loading-dots"><span></span><span></span><span></span></span> Analysing your answer…';
-
-  const lessons = CURRICULUM[state.currentSkill];
-  const lesson = lessons[state.lessonIndex];
-
+  btn.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
+  const fb = document.getElementById('feedbackBlock');
+  const ft = document.getElementById('feedbackText');
+  fb.className = 'feedback-block visible';
+  ft.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
+  const lesson = CURRICULUM[state.currentSkill][state.lessonIndex];
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -485,29 +1083,96 @@ async function submitAnswer() {
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
-        system: `You are an expert AI sales coach training account executives to sell AI solutions. Give direct, practical feedback in 3-5 sentences: (1) what they did well, (2) what's missing or could be sharper, (3) one specific phrase or reframe to use next time. Be concise. Prose only — no bullet points, no preambles.`,
-        messages: [{
-          role: 'user',
-          content: `Lesson: "${lesson.title}"\nChallenge: ${lesson.challenge}\nThe AE's answer: "${answer}"\n\nGive coaching feedback: what worked, what's missing, and one specific phrase to use next time.`
-        }]
+        system: 'You are an expert AI sales coach training account executives to sell AI solutions. Give direct, practical feedback in 3-5 sentences structured as: (1) what they did well, (2) what is missing or could be sharper, (3) one specific phrase or reframe to use next time. Be warm but direct. Prose only — no bullet points, no headers, no preambles.',
+        messages: [{ role: 'user', content: `Lesson: "${lesson.title}"\nChallenge: ${lesson.challenge}\nThe AE answered: "${answer}"\n\nGive coaching feedback.` }]
       })
     });
     const data = await resp.json();
-    const text = data.content?.find(b => b.type === 'text')?.text || 'Could not get feedback — try again.';
-    feedbackBox.textContent = text;
-    document.getElementById('nextBtn').className = 'btn btn-teal visible';
+    const text = data.content?.find(b => b.type === 'text')?.text || 'Could not retrieve feedback. Please try again.';
+    ft.textContent = text;
+    document.getElementById('nextBtn').className = 'btn-next visible';
     state.completed[state.currentSkill] = Math.max(state.completed[state.currentSkill], state.lessonIndex + 1);
     state.streak++;
-    localStorage.setItem('streak', state.streak);
-    document.getElementById('streakCount').textContent = state.streak;
+    document.getElementById('streakLabel').textContent = state.streak + ' day streak';
+    saveState();
+    renderDotsDone();
   } catch(e) {
-    feedbackBox.textContent = 'Connection error — check your API key and try again.';
+    ft.textContent = 'Connection error — check your API key and try again.';
   }
   btn.disabled = false;
-  btn.innerHTML = 'Get coaching ↗';
+  btn.textContent = 'Get coaching';
 }
 
-init();
+function renderDotsDone() {
+  const dots = document.getElementById('lessonDots');
+  const lessons = CURRICULUM[state.currentSkill];
+  dots.innerHTML = lessons.map((_, i) => {
+    const done = i < state.completed[state.currentSkill];
+    const curr = i === state.lessonIndex;
+    return `<div class="lesson-dot ${done?'done':curr?'current':''}"></div>`;
+  }).join('');
+}
+
+function totalCompleted() {
+  return Object.values(state.completed).reduce((a,b) => a+b, 0);
+}
+function totalLessons() {
+  return Object.values(CURRICULUM).reduce((a,c) => a+c.length, 0);
+}
+function pct(skillId) {
+  return Math.round((state.completed[skillId] / CURRICULUM[skillId].length) * 100);
+}
+function overallPct() {
+  return Math.round((totalCompleted() / totalLessons()) * 100);
+}
+
+function renderHome() {
+  const grid = document.getElementById('modulesGrid');
+  grid.innerHTML = MODULES.map((m, i) => {
+    const p = pct(m.id);
+    return `<div class="module-tile" onclick="showModulePage('${m.id}')">
+      <div class="tile-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="tile-title">${m.shortTitle}</div>
+      <div class="tile-desc">${m.desc}</div>
+      <div class="tile-progress">
+        <div class="tile-progress-bar"><div class="tile-progress-fill" style="width:${p}%"></div></div>
+        <div class="tile-progress-label">${state.completed[m.id]}/${CURRICULUM[m.id].length}</div>
+      </div>
+      <div class="tile-arrow">→</div>
+    </div>`;
+  }).join('');
+  const stats = document.getElementById('homeStats');
+  stats.innerHTML = `
+    <div class="stat-card"><div class="stat-num">${totalCompleted()}</div><div class="stat-label">Lessons done</div></div>
+    <div class="stat-card"><div class="stat-num">${overallPct()}%</div><div class="stat-label">Overall mastery</div></div>
+    <div class="stat-card"><div class="stat-num">${state.streak}</div><div class="stat-label">Day streak</div></div>
+    <div class="stat-card"><div class="stat-num">${totalLessons() - totalCompleted()}</div><div class="stat-label">Remaining</div></div>
+  `;
+}
+
+function renderDashboard() {
+  const stats = document.getElementById('dashStats');
+  stats.innerHTML = `
+    <div class="stat-card"><div class="stat-num">${totalCompleted()}</div><div class="stat-label">Lessons done</div></div>
+    <div class="stat-card"><div class="stat-num">${overallPct()}%</div><div class="stat-label">Overall mastery</div></div>
+    <div class="stat-card"><div class="stat-num">${state.streak}</div><div class="stat-label">Day streak</div></div>
+    <div class="stat-card"><div class="stat-num">${totalLessons() - totalCompleted()}</div><div class="stat-label">To complete</div></div>
+  `;
+  const rows = document.getElementById('skillRows');
+  rows.innerHTML = MODULES.map(m => {
+    const p = pct(m.id);
+    const done = state.completed[m.id] === CURRICULUM[m.id].length;
+    return `<div class="skill-row" onclick="showModulePage('${m.id}')">
+      <div class="skill-row-name">${m.shortTitle}</div>
+      <div class="skill-row-bar"><div class="skill-row-fill" style="width:${p}%"></div></div>
+      <div class="skill-row-pct">${p}%</div>
+      <div class="skill-row-badge ${done?'done':''}">${done ? 'Complete' : state.completed[m.id] > 0 ? 'In progress' : 'Not started'}</div>
+    </div>`;
+  }).join('');
+}
+
+document.getElementById('streakLabel').textContent = state.streak + ' day streak';
+renderHome();
 </script>
 </body>
 </html>
